@@ -102,12 +102,19 @@
     <canvas id="interactive-canvas"></canvas>
 
     <nav class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-7xl z-[100] px-6 py-4 flex justify-between items-center rounded-2xl nav-island">
-        <a href="#" class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center logo-glow">
-                <span class="font-black text-white text-xs">4BIZ</span>
-            </div>
-            <span class="text-xl font-extrabold tracking-tighter uppercase">4Biz<span class="text-blue-500"> International</span></span>
-        </a>
+        
+        <!-- logo code -->
+   <a href="#" class="flex items-center gap-4 group relative py-2 magnetic-area">
+    <div class="logo-container relative">
+        <img src="assets/images/4biz_logo.png" alt="4Biz Logo" 
+             class="w-10 h-10 object-contain brightness-110 contrast-125 filter drop-shadow-[0_0_8px_rgba(0,132,255,0.5)]">
+    </div>
+    
+    <div class="flex flex-col">
+        <span class="text-xl font-black tracking-tighter uppercase leading-none text-white">4Biz</span>
+        <span class="text-[9px] text-blue-500 font-bold tracking-[0.3em] uppercase leading-none mt-1">International</span>
+    </div>
+</a>
 
         <div class="hidden lg:flex items-center gap-10 text-[11px] font-bold uppercase tracking-widest text-slate-400">
             <a href="#services" class="hover:text-blue-500 transition">Expertise</a>
@@ -124,7 +131,7 @@
     </nav>
 
     <div id="mobile-menu">
-        <div class="flex flex-col gap-10 text-4xl font-black text-center uppercase tracking-tighter">
+        <div class="flex flex-col gap-10 text-xl font-black text-center uppercase tracking-tighter">
             <a href="#services" class="mobile-link">Services</a>
             <a href="#about" class="mobile-link">About</a>
             <a href="#careers" class="mobile-link">Careers</a>
@@ -137,7 +144,7 @@
             <div class="mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-[10px] font-bold tracking-[0.3em] uppercase">
                 Enterprise IT Intelligence
             </div>
-            <h1 class="text-6xl md:text-9xl font-black mb-8 leading-[0.85] tracking-tighter hero-text">
+            <h1 class="text-5xl md:text-7xl font-black mb-8 leading-[0.85] tracking-tighter hero-text">
                 THE CORE OF <br>INNOVATION.
             </h1>
             <p class="text-lg text-slate-400 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
