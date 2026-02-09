@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4Biz International | Next-Gen IT Solutions</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --accent: #0084ff;
+            --deep-blue: #020617;
+            --glass: rgba(255, 255, 255, 0.03);
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--deep-blue);
+            color: white;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Reactive Canvas Background */
+        #interactive-canvas {
+            position: fixed;
+            top: 0; left: 0;
+            z-index: -1;
+            touch-action: none;
+        }
+
+        /* Logo Glow Effect */
+        .logo-glow {
+            filter: drop-shadow(0 0 10px rgba(0, 132, 255, 0.8));
+        }
+
+        /* Custom Cursor */
+        #cursor-main {
+            width: 10px; height: 10px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: fixed; pointer-events: none;
+            z-index: 10000; box-shadow: 0 0 20px var(--accent);
+        }
+
+        #cursor-ring {
+            width: 40px; height: 40px;
+            border: 1px solid rgba(0, 132, 255, 0.5);
+            border-radius: 50%;
+            position: fixed; pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* Navigation Island */
+        .nav-island {
+            background: rgba(2, 6, 23, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Mobile Menu Overlay */
+        #mobile-menu {
+            position: fixed;
+            inset: 0;
+            background: var(--deep-blue);
+            z-index: 90;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            clip-path: circle(0% at 100% 0%);
+            transition: clip-path 0.6s ease-in-out;
+        }
+
+        #mobile-menu.active {
+            clip-path: circle(150% at 100% 0%);
+        }
+
+        .glass-panel {
+            background: var(--glass);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0, 132, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .hero-text {
+            background: linear-gradient(to bottom, #fff 40%, var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="cursor-main"></div>
+    <div id="cursor-ring"></div>
+    <canvas id="interactive-canvas"></canvas>
+
+    <nav class="fixed top-6 left-1/2 -translate-x-1/2 w-[90%] max-w-7xl z-[100] px-6 py-4 flex justify-between items-center rounded-2xl nav-island">
+        
+        <!-- logo code -->
+   <a href="#" class="flex items-center gap-4 group relative py-2 magnetic-area">
+    <div class="logo-container relative">
+        <img src="assets/images/4biz_logo.png" alt="4Biz Logo" 
+             class="w-10 h-10 object-contain brightness-110 contrast-125 filter drop-shadow-[0_0_8px_rgba(0,132,255,0.5)]">
+    </div>
+    
+    <div class="flex flex-col">
+        <span class="text-xl font-black tracking-tighter uppercase leading-none text-white">4Biz</span>
+        <span class="text-[9px] text-blue-500 font-bold tracking-[0.3em] uppercase leading-none mt-1">International</span>
+    </div>
+</a>
+
+        <div class="hidden lg:flex items-center gap-10 text-[11px] font-bold uppercase tracking-widest text-slate-400">
+            <a href="#services" class="hover:text-blue-500 transition">Expertise</a>
+            <a href="#careers" class="hover:text-blue-400 transition">Talent</a>
+            <a href="#contact" class="hover:text-blue-400 transition">Network</a>
+            <button class="px-6 py-2 bg-blue-600 text-white rounded-full hover:bg-blue-500 transition shadow-lg shadow-blue-500/20">Client Login</button>
+        </div>
+
+        <button id="menu-toggle" class="lg:hidden flex flex-col gap-1.5 z-[101] relative">
+            <span class="w-8 h-0.5 bg-white transition-all"></span>
+            <span class="w-8 h-0.5 bg-blue-500 transition-all"></span>
+            <span class="w-8 h-0.5 bg-white transition-all"></span>
+        </button>
+    </nav>
+
+    <div id="mobile-menu">
+        <div class="flex flex-col gap-10 text-xl font-black text-center uppercase tracking-tighter">
+            <a href="#services" class="mobile-link">Services</a>
+            <a href="#about" class="mobile-link">About</a>
+            <a href="#careers" class="mobile-link">Careers</a>
+            <a href="#contact" class="mobile-link">Contact</a>
+        </div>
+    </div>
+
+    <section class="min-h-screen flex items-center justify-center pt-24 px-6 text-center">
+        <div class="max-w-4xl">
+            <div class="mb-6 inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-[10px] font-bold tracking-[0.3em] uppercase">
+                Enterprise IT Intelligence
+            </div>
+            <h1 class="text-5xl md:text-7xl font-black mb-8 leading-[0.85] tracking-tighter hero-text">
+                THE CORE OF <br>INNOVATION.
+            </h1>
+            <p class="text-lg text-slate-400 mb-12 max-w-2xl mx-auto font-light leading-relaxed">
+                4Biz International delivers custom software development and elite staffing solutions for the world's most ambitious digital projects.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-5 justify-center">
+                <button class="px-12 py-5 bg-blue-600 rounded-2xl font-bold shadow-[0_0_40px_rgba(0,132,255,0.4)] hover:scale-105 transition">Deploy Solution</button>
+                <button class="px-12 py-5 glass-panel rounded-2xl font-bold hover:bg-white/5 transition">Join the Network</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="py-32 px-6">
+        <div class="max-w-7xl mx-auto grid md:grid-cols-3 gap-8">
+            <div class="glass-panel p-12 rounded-[40px] hover:border-blue-500/50 transition">
+                <div class="text-blue-500 font-bold mb-6 text-sm tracking-widest">01 // SOFTWARE</div>
+                <h3 class="text-2xl font-bold mb-4">Custom Dev</h3>
+                <p class="text-slate-400 text-sm">Bespoke software architecture designed for high-availability European markets.</p>
+            </div>
+            <div class="glass-panel p-12 rounded-[40px] hover:border-blue-500/50 transition">
+                <div class="text-blue-500 font-bold mb-6 text-sm tracking-widest">02 // TALENT</div>
+                <h3 class="text-2xl font-bold mb-4">IT Staffing</h3>
+                <p class="text-slate-400 text-sm">On-demand access to vetted senior engineers and architects globally.</p>
+            </div>
+            <div class="glass-panel p-12 rounded-[40px] hover:border-blue-500/50 transition">
+                <div class="text-blue-500 font-bold mb-6 text-sm tracking-widest">03 // INFRA</div>
+                <h3 class="text-2xl font-bold mb-4">Cloud Defense</h3>
+                <p class="text-slate-400 text-sm">Managed cybersecurity and infrastructure protocols built for modern compliance.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-20 border-t border-blue-500/10 text-center">
+        <div class="text-3xl font-black mb-6 italic">4BIZ<span class="text-blue-500">.INTL</span></div>
+        <div class="flex justify-center gap-10 text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-10">
+            <a href="#">Privacy</a> <a href="#">Security</a> <a href="#">Compliance</a>
+        </div>
+        <p class="text-[10px] text-slate-600 tracking-[8px] uppercase">&copy; 2026 4Biz International</p>
+    </footer>
+
+    <script>
+        gsap.registerPlugin(ScrollTrigger);
+
+        /* 1. INTERACTIVE REACTIVE BACKGROUND */
+        const canvas = document.getElementById('interactive-canvas');
+        const ctx = canvas.getContext('2d');
+        let points = [];
+        const mouse = { x: null, y: null, radius: 150 };
+
+        function init() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            points = [];
+            for (let i = 0; i < 100; i++) {
+                points.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    baseX: 0, baseY: 0,
+                    size: Math.random() * 2,
+                    density: (Math.random() * 30) + 1
+                });
+                points[i].baseX = points[i].x;
+                points[i].baseY = points[i].y;
+            }
+        }
+
+        window.addEventListener('mousemove', (e) => {
+            mouse.x = e.x;
+            mouse.y = e.y;
+            gsap.to('#cursor-main', { x: e.x, y: e.y, duration: 0.1 });
+            gsap.to('#cursor-ring', { x: e.x - 15, y: e.y - 15, duration: 0.3 });
+        });
+
+        window.addEventListener('touchstart', (e) => {
+            mouse.x = e.touches[0].clientX;
+            mouse.y = e.touches[0].clientY;
+        });
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = 'rgba(0, 132, 255, 0.4)';
+            
+            for (let i = 0; i < points.length; i++) {
+                let p = points[i];
+                
+                // Interaction Logic
+                let dx = mouse.x - p.x;
+                let dy = mouse.y - p.y;
+                let distance = Math.sqrt(dx*dx + dy*dy);
+                let forceDirectionX = dx / distance;
+                let forceDirectionY = dy / distance;
+                let maxDistance = mouse.radius;
+                let force = (maxDistance - distance) / maxDistance;
+                let directionX = forceDirectionX * force * p.density;
+                let directionY = forceDirectionY * force * p.density;
+
+                if (distance < mouse.radius) {
+                    p.x -= directionX;
+                    p.y -= directionY;
+                } else {
+                    if (p.x !== p.baseX) {
+                        let dx = p.x - p.baseX;
+                        p.x -= dx/10;
+                    }
+                    if (p.y !== p.baseY) {
+                        let dy = p.y - p.baseY;
+                        p.y -= dy/10;
+                    }
+                }
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Draw Lines
+                for (let j = i; j < points.length; j++) {
+                    let p2 = points[j];
+                    let dx = p.x - p2.x;
+                    let dy = p.y - p2.y;
+                    let dist = Math.sqrt(dx*dx + dy*dy);
+                    if (dist < 150) {
+                        ctx.strokeStyle = `rgba(0, 132, 255, ${1 - dist/150})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animate);
+        }
+
+        init();
+        animate();
+        window.addEventListener('resize', init);
+
+        /* 2. MOBILE MENU LOGIC */
+        const toggle = document.getElementById('menu-toggle');
+        const menu = document.getElementById('mobile-menu');
+        const spans = toggle.querySelectorAll('span');
+
+        toggle.addEventListener('click', () => {
+            menu.classList.toggle('active');
+            spans[0].style.transform = menu.classList.contains('active') ? "rotate(45deg) translate(5px, 6px)" : "";
+            spans[1].style.opacity = menu.classList.contains('active') ? "0" : "1";
+            spans[2].style.transform = menu.classList.contains('active') ? "rotate(-45deg) translate(5px, -6px)" : "";
+        });
+
+        /* 3. GSAP ENTRANCE */
+        gsap.from(".hero-text", { y: 100, opacity: 0, duration: 1.5, ease: "power4.out" });
+    </script>
+</body>
+</html>
